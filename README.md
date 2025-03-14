@@ -12,6 +12,7 @@ To use this API, you need to have a Supabase account and a project with a table 
 - `name` (TEXT)
 - `image` (TEXT)
 - `link` (TEXT)
+- `archived` (BOOLEAN)
 
 You also need to have a Supabase API Key with the following permissions:
 
@@ -31,5 +32,5 @@ supabase functions serve --no-verify-jwt
 You can deploy this API by running the following command:
 
 ```bash
-supabase functions deploy api
+supabase functions deploy api --no-verify-jwt
 ```

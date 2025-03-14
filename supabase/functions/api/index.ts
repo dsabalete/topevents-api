@@ -6,7 +6,7 @@
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 import { createClient } from "npm:@supabase/supabase-js@2.39.3"
 
-console.log("Hello from TopEvents-API!")
+console.log("=== Getting events from TopEvents-API ===")
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -15,9 +15,18 @@ const supabase = createClient(
 
 Deno.serve(async (req) => {
 
-  const { data, error } = await supabase.from('events').select('id, name, image, link')
+  // check for archived query parameter
+  const url = new URL(req.url)
+  const archived = url.searchParams.get('archived')
+  const flagArchived = archived !== null
 
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .eq('archived', flagArchived)
+  
   console.log(`${data.length} events found`)
+
   if (error) {
     console.error(error)
     throw error
